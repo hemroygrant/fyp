@@ -1,0 +1,12 @@
+{% extends 'gp/base.html' %}
+
+{% block content %}
+{% load static %}
+    <div class="container" id="home-section">
+        <header class="mb-5 h2">
+            <b>You have successfully created your alphanumeric password.</b>
+            <p>Email: {{email}} & Password: {{password}}</p>
+            <a href="/logout">Click to contiunue.</a>
+        </header>
+    </div>
+{% endblock %}

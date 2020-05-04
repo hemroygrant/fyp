@@ -1,0 +1,95 @@
+{% extends 'gp/base.html' %}
+
+{% block content %}
+{% load static %}
+    <div class="container" id="home-section">
+        <header class="mb-5 h2">
+            <b>Please fill out the registration form below before continuing.</b>
+        </header>
+        <em class="text-info">All information collected is confidential and secure. The information provided will only be used for the purpose of evaluating this application.</em><br><br>
+
+        <form action="/register/" class="mb-5 was-validated" method="POST">{% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="first_name">First Name</label>
+                    <input type="text" name="first_name" id="" class="form-control" required>
+                    <div class="valid-feedback">Looks Good!</div>
+                    <div class="invalid-feedback">Please enter your first name!</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" name="last_name" id="" class="form-control" required>
+                    <div class="valid-feedback">Looks Good!</div>
+                    <div class="invalid-feedback">Please enter your last name!</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="" class="form-control" required>
+                    <div class="valid-feedback">Looks Good!</div>
+                    <div class="invalid-feedback">Please enter a valid email address!</div>
+                </div>
+                <div class="col-md-3 mb-3 form-group">
+                    <label for="gender">Gender</label>
+                    <select name="gender" id="" class="custom-select" required>
+                        <option selected disabled value="">Choose...</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+                    <div class="invalid-feedback">Please state gender!</div>
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="age">Age</label>
+                    <input type="number" name="age" id="" class="form-control" required>
+                    <div class="invalid-feedback">Please enter your age!</div>
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-check pmb-3">
+                        <input type="checkbox" name="pw_user" id="" class="form-check-input">
+                        <label for="" class="form-check-label text-white">Have you ever used passwords?</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" name="remember_pw" id="" class="form-check-input">
+                        <label for="" class="form-check-label text-white">Can you recall one of your passwords being used presently?</label>
+                    </div>
+                </div>
+                <!-- <button class="btn btn-primary col-md-4 btn-block my-auto mx-auto" type="submit">Submit</button> -->
+            </div>
+            <b class="h5">Select the password scheme you would like to test.</b>
+            <div class="container">
+                <div class="card-group d-md-flex d-block">
+                    <div class="card bg-secondary m-3">
+                        <img src="{% static 'images/alphanumeric.jpg' %}" alt="Alphanumeric Password" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">Alphanumeric Password Scheme</h5>
+                            <p class="card-text"></p>
+                            <button type="submit" class="btn btn-primary" name="pw_scheme" value="Alphanumeric">Submit</button>
+                        </div>
+                    </div>
+                    <div class="card bg-secondary m-3">
+                        <img src="{% static 'images/PassPoints.png' %}" alt="PassPoints Password" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">PassPoints Password Scheme</h5>
+                            <p class="card-text"></p>
+                            <button type="submit" class="btn btn-primary" name="pw_scheme" value="Old Passpoints">Submit</button>
+                        </div>
+                    </div>
+                    <div class="card bg-secondary m-3">
+                        <img src="{% static 'images/new.png' %}" alt="New Password" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">New Password Scheme</h5>
+                            <p class="card-text"></p>
+                            <button type="submit" class="btn btn-primary" name="pw_scheme" value="New Passpoints">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

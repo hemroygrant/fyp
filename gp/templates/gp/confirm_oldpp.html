@@ -1,0 +1,100 @@
+{% extends 'gp/base.html' %}
+
+{% block content %}
+<div class="container-fluid pl-5" id="home-section">
+    <h2 class="">Confirm PassPoints Password</h2>
+    <div class="text-info"><b class="text-white">Details:</b> PassPoints password is a graphical password schmeme that creates a password by clicking at least five click points on an image and re-clicking those points to login.</div>
+    <h3 id="h3">Review your click points before confirming.</h3>
+        <div class="row mb-0">
+            <img src="{{image.image.url}}" alt="" id="oldpp_image" class="" hidden>
+            <canvas id="oldpp_canvas" class=""></canvas>
+            <div class="mx-auto mt-5">
+                <h4 class="mb-5">Number of click points: <b id="cpNum" class="h1">{% if cpCount %}{{cpCount}}{% else %}{{cpNum}}{% endif %}</b></h4>
+                <!-- <p id="output"></p> -->
+                <h4 class="">Image selected: </h4>
+                <img src="{{image.image.url}}" alt="" id="thumbnail" class="img-thumbnail">
+                <div class="mt-3"><strong class="text-info">Instructions: </strong><ul class="fa-ul"><li><span class="fa-li"><i class="fa fa-check-square"></i></span>Please choose an image for creating your password.</li><li><span class="fa-li"><i class="fa fa-check-square"></i></span>Select a minimum of five click points on the image.</li></ul></div>
+                <div class="d-none">
+                    {% for clickpoint in clickpoints %}
+                        <input type="number" name="x{{clickpoint.order}}" id="x{{clickpoint.order}}" value="{{clickpoint.x_location}}">
+                        <input type="number" name="y{{clickpoint.order}}" id="y{{clickpoint.order}}" value="{{clickpoint.y_location}}">
+                    {% endfor %}
+                </div>
+                <form action="/confirm_passpoints/" method="post" id="createpp">{% csrf_token %}
+                    <input id="time_prev" size="6" readonly="" name="time_prev" value="{{time_prev}}" hidden/>
+                    <input id="seconds-spent" size="6" readonly="" name="time"  hidden/>
+                    <button type="submit" class="btn btn-lg btn-danger" id="submitButton" form="createpp" name="operation" value="retry">Cancel</button>
+                    <button type="submit" class="btn btn-lg btn-primary" id="submitButton" form="createpp" name="operation" value="confirm">Confirm Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var canvas;
+        var context;
+        //function initialized at page load.
+        function init() {
+            var image = document.getElementById('oldpp_image');
+            canvas = document.getElementById('oldpp_canvas');
+            context = canvas.getContext('2d');
+            drawImage(image);
+
+            var count = $("#cpNum").text();
+            for (z=1; z<=count; z++){
+                var x = $("#x"+z).val();
+                var y = $("#y"+z).val();
+                tolerancelevel(x-7,y-7);
+                exactclickpoint(x,y);
+                CreateText(x,y-10, z);
+            }
+            
+        }
+        function drawImage(image) {
+            canvas.width = image.width;
+            canvas.height = image.height;
+
+            context.drawImage(image, 0, 0);
+        }
+        function tolerancelevel(x, y) {
+            var rectangle = new Path2D();
+            rectangle.rect(x,y,15,15)
+            context.fillStyle = 'red';
+            context.fill(rectangle);
+        }
+        function exactclickpoint(x, y) {
+            var rectangle = new Path2D();
+            rectangle.rect(x,y,1,1)
+            context.fillStyle = 'orange';
+            context.fill(rectangle);
+        }
+        function CreateText(x,y,z) {
+            context.font = 'bold 32pt Arial';//sets font style, size and type
+            context.fillStyle = 'red';//sets font color
+            context.fillText(z, x, y);//sets text to be rendered
+        }
+       
+        window.addEventListener('load', init);
+        // window.addEventListener('load', getclickPoint);
+    </script>
+    <script>
+        (function(){"use strict";
+
+        var secondsSpentElement = document.getElementById("seconds-spent");
+        // var millisecondsSpentElement = document.getElementById("milliseconds-spent");
+        // var minutesSpentElement = document.getElementById("minutes-spent");
+
+        requestAnimationFrame(function updateTimeSpent(){
+            var timeNow = performance.now();
+            
+            secondsSpentElement.value = round(timeNow/1000);
+            // millisecondsSpentElement.value = round(timeNow);
+            // minutesSpentElement.value = round(timeNow/60000);
+
+            
+            requestAnimationFrame(updateTimeSpent);
+        });
+        var performance = window.performance, round = Math.floor;
+        })();
+    </script>
+{% endblock %}

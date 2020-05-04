@@ -1,0 +1,49 @@
+{% extends 'gp/base.html' %}
+
+{% block content %}
+    
+    <div class="container" id="home-section">
+        <h2 class="mb-5">Create Alphanumeric Password</h2>
+        <div class="row">
+        <form action="/create_alphanumeric/" class="col-md-6" method="POST">{% csrf_token %}
+            <div class="form-group">
+                <div class="mb-3">
+                    <label for="email1">Email</label>
+                    <input type="email" name="email1" id="" class="form-control" required>
+                    <!-- <div class="valid-feedback">Looks Good!</div> -->
+                </div>
+                <div class="mb-3">
+                    <label for="password1">Password</label>
+                    <input type="password" name="password1" id="" class="form-control {{is_invalid}}" required>
+                    <div class="invalid-feedback">Please ensure your password meet all the requirements.</div>
+                </div>
+            </div>
+            <input id="time_prev" size="6" readonly="" name="time_prev" value="{{time_prev}}" hidden/>
+            <input id="seconds-spent" size="6" readonly="" name="time"  hidden/>
+            <input type="hidden" name="process" value="1">
+            <button type="submit" class="btn-lg btn-primary">Submit</button>
+        </form>
+        <div class="col-md-6 p-3"><strong class="text-info">Instructions: </strong><p>Enter your email address indicated in the menu-bar above. Then enter a password that meets the requirements below: <ul class="text-warning"><li>At least 8 characters.</li><li>At least 1 number.</li><li>At least 1 symbol.</li><li>At least 1 capital letter.</li></ul></p></div>
+        </div>
+    </div>
+    <script>
+        (function(){"use strict";
+
+        var secondsSpentElement = document.getElementById("seconds-spent");
+        // var millisecondsSpentElement = document.getElementById("milliseconds-spent");
+        // var minutesSpentElement = document.getElementById("minutes-spent");
+
+        requestAnimationFrame(function updateTimeSpent(){
+            var timeNow = performance.now();
+            
+            secondsSpentElement.value = round(timeNow/1000);
+            // millisecondsSpentElement.value = round(timeNow);
+            // minutesSpentElement.value = round(timeNow/60000);
+
+            
+            requestAnimationFrame(updateTimeSpent);
+        });
+        var performance = window.performance, round = Math.floor;
+        })();
+    </script>
+{% endblock %}

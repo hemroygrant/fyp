@@ -1,0 +1,135 @@
+{% extends 'gp/base.html' %}
+
+{% block content %}
+
+    <div class="container-fluid pl-5" id="home-section">
+        <h2 class="">New PassPoints Password Login<div class="text-danger {% if is_invalid == 'is-invalid' %}{% else %}d-none{% endif %}" id="cpcheck_text">Incorrect Password. Please try again!</div></h2>
+        <div class="text-info"><b class="text-white">Details:</b> The New PassPoints password is a graphical password schmeme that creates a password by choosing / uploading an image and slecting at least 5 click points on the image and optionally selecting other images with at least one click point on each. To login the user have to select their image and re-click the corresponding click points.</div>
+            <div class="row mb-0">
+                <img src="{{img_url}}" alt="" id="oldpp_image" class="" hidden>
+                <canvas id="oldpp_canvas" class=""></canvas>
+                <div class="mx-auto mt-5">
+                    <h4 class="mb-5">Number of click points: <b id="cpNum"></b></h4>
+                    <!-- <p id="output"></p> -->
+                    <h4 class="">Image selected: </h4>
+                    <img src="{{img_url}}" alt="" id="thumbnail" class="img-thumbnail">
+                    <div class="mt-3"><strong class="text-info">Instructions: </strong><ul class="fa-ul"><li><span class="fa-li"><i class="fa fa-check-square"></i></span>Select your password image.</li><li><span class="fa-li"><i class="fa fa-check-square"></i></span>Click your click points in the correct sequence.</li></ul><h1 class="p-4">Test period: {{test_period}} of 3</h1></div>
+                    <div class="">
+                    </div>
+                    <form action="/test_new_passpoints2/" method="post" id="testpp">{% csrf_token %}
+                        <input type="hidden" name="image" value="{{image.pk}}">
+                        <input type="hidden" name="img_fin" value="{{img_fin}}">
+                        <input type="number" name="cpCount" id="cpCount" value="" hidden>
+                        <input id="time_prev" size="6" readonly="" name="time_prev" value="{{time_prev}}" hidden/>
+                        <input id="seconds-spent" size="6" readonly="" name="time"  hidden/>
+                        <button type="submit" class="btn btn-lg btn-danger mr-5" id="retryButton" form="testpp" name="operation" value="retry">Cancel</button>
+                        <button type="submit" class="btn btn-lg btn-primary px-5" id="submitButton" form="testpp" name="operation" value="login">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            var canvas;
+            var context;
+            var oldpp_len = '{{ oldpp_len}}';
+            //function initialized at page load.
+            function init() {
+                var image = document.getElementById('oldpp_image');
+                canvas = document.getElementById('oldpp_canvas');
+                context = canvas.getContext('2d');
+
+                drawImage(image);
+            }
+            function drawImage(image) {
+                canvas.width = 1024;
+                canvas.height = 768;
+
+                context.drawImage(image, 0, 0, 1024, 768);
+
+                var rectangle = new Path2D();
+                var wnh = 128;
+                for (let i = 0; i < 8; i++) {
+                    for (let i1 = 0; i1 < 6; i1++) {
+                        rectangle.rect(i*wnh, i1*wnh, 128, 128);
+                        context.strokeStyle = 'orange';
+                        context.stroke(rectangle);
+                    }
+                }
+            }
+            function tolerancelevel(x, y) {
+                var rectangle = new Path2D();
+                rectangle.rect(x,y,15,15)
+                context.fillStyle = 'orange';
+                context.fill(rectangle);
+            }
+            // var image = "{{image}}";
+            var cpCount = 0;
+            // var cpArray = [];
+            var r, g, b, a, x, y;
+            function getclickPoint() {
+                $('canvas').mousedown(function(e) {
+                    var pixelData = canvas.getContext('2d').getImageData(event.offsetX, event.offsetY, 1, 1).data;
+                    var x = event.offsetX;
+                    var y = event.offsetY;
+                    var r = pixelData[0];
+                    var g = pixelData[1];
+                    var b = pixelData[2];
+                    var a = pixelData[3];
+                    // $('#output').html('R: ' + r + '<br>G: ' + g + '<br>B: ' + b + '<br>A: ' + a + '<br>X: ' + xPosition + '<br>Y: ' + yPosition);
+                    cpCount++;
+                    // cpArray.push(cpCount, r, g, b, a, xPosition, yPosition);
+                    // $('#output').val('Array ' + cpArray.length + ': ' +cpArray[cpArray.length - 6]+ ', ' +cpArray[cpArray.length - 5] );
+                    addInput(x, y, r, g, b, a, cpCount);
+                    document.getElementById('cpNum').innerHTML = cpCount;
+                    $('#cpCount').val(cpCount);
+                    return x, y, r, g, b, a;
+                });
+                document.getElementById('cpNum').innerHTML = cpCount;
+
+            }
+            function addInput(x, y, r, g, b, a, cpCount) {
+                inpArray = ['x', 'y', 'r', 'g', 'b', 'a', 'cp'];
+                valArray = [x, y, r, g, b, a, cpCount]
+                for (i=0; i<inpArray.length; i++){
+                    var inp = document.createElement("input");
+                    inp.setAttribute("type", "hidden");
+                    inp.setAttribute("name", inpArray[i]+""+valArray[6]);
+                    inp.setAttribute("value", valArray[i]);
+                    $("#testpp").append(inp);
+                }
+            }
+            // $(document).on('click', '#submitButton', function() {
+            // function setcp() {
+            //     // $.ajax({
+            //     // url: '/create_passpoints2/',
+            //     // type: 'POST',
+            //     // data: {'cpCount': cpCount, 'cpArray': cpArray, 'image': image, 'operation': operation},
+            //     // });
+            //     $.post("/create_passoints2/",{cpCount: cpCount, cpArray: cpArray, image: image});
+            // }
+            // // });
+
+            window.addEventListener('load', init);
+            window.addEventListener('load', getclickPoint);
+        </script>
+        <script>
+            (function(){"use strict";
+    
+            var secondsSpentElement = document.getElementById("seconds-spent");
+            // var millisecondsSpentElement = document.getElementById("milliseconds-spent");
+            // var minutesSpentElement = document.getElementById("minutes-spent");
+    
+            requestAnimationFrame(function updateTimeSpent(){
+                var timeNow = performance.now();
+                
+                secondsSpentElement.value = round(timeNow/1000);
+                // millisecondsSpentElement.value = round(timeNow);
+                // minutesSpentElement.value = round(timeNow/60000);
+    
+                
+                requestAnimationFrame(updateTimeSpent);
+            });
+            var performance = window.performance, round = Math.floor;
+            })();
+        </script>
+{% endblock %}

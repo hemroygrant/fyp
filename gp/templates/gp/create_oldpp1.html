@@ -1,0 +1,151 @@
+{% extends 'gp/base.html' %}
+
+{% block content %}
+    <div class="container-fluid pl-5" id="home-section">
+        <h2 class="">Create PassPoints Password</h2>
+        <div class="text-info"><b class="text-white">Details:</b> PassPoints password is a graphical password schmeme that creates a password by clicking at least five click points on an image and re-clicking those points to login.</div>
+        <div class="mt-3"><strong class="text-info">Instructions: </strong><ul><li>Please choose an image for creating your password.</li><li>Select a minimum of five click points on the image.</li></ul></div>
+        <h3>Choose your image below from the categories listed or upload your own image.</h1>
+            <h4>Categories</h4>
+            <form action="/create_passpoints/" method="POST" id="select_form">{% csrf_token %}
+            <div class="accordion" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Nature
+                        </button>
+                    </h2>
+                    </div>
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body" id="Nature">
+                        {% for image in nature_images %}
+                        <img src="{{image.image.url}}" alt="" id="{{image.pk}}" class="password_image">
+                        {% endfor %}
+                    </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Sports
+                        </button>
+                    </h2>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                    <div class="card-body" id="Sports">
+                        {% for image in sports_images %}
+                        <img src="{{image.image.url}}" alt="" id="{{image.pk}}" class="password_image">
+                        {% endfor %}
+                    </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Animals
+                        </button>
+                    </h2>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body" id="Animal">
+                        {% for image in animal_images %}
+                        <img src="{{image.image.url}}" alt="" id="{{image.pk}}" class="password_image">
+                        {% endfor %}
+                    </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Cars
+                        </button>
+                    </h2>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body" id="Cars">
+                        {% for image in cars_images %}
+                        <img src="{{image.image.url}}" alt="" id="{{image.pk}}" class="password_image">
+                        {% endfor %}
+                    </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Food
+                        </button>
+                    </h2>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body" id="Food">
+                        {% for image in food_images %}
+                        <img src="{{image.image.url}}" alt="" id="{{image.pk}}" class="password_image">
+                        {% endfor %}
+                    </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Art
+                        </button>
+                    </h2>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body" id="Art">
+                        {% for image in art_images %}
+                        <img src="{{image.image.url}}" alt="" id="{{image.pk}}" class="password_image">
+                        {% endfor %}
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center p-3">
+                <input type="text" name="image" id="image_id" hidden>
+                <!-- <input type="text" name="category" id="category"> -->
+                <img src="" alt="" class="rounded img-thumbnail" id="thumbnail">
+                <input id="time_prev" size="6" readonly="" name="time_prev" value="{{time_prev}}" hidden/>
+                <input id="seconds-spent" size="6" readonly="" name="time"  hidden/>
+                <button type="submit" class="btn btn-lg btn-primary" name="operation" value="select_image" form="select_form">Submit</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $(".password_image").click(function(){
+                // var temp = $(this).parent().attr('id');
+                $("#image_id").val(this.id);
+                // $("#category").val(temp);
+                $("#thumbnail").attr("src", this.src);
+            });
+        });
+    </script>
+    <script>
+        (function(){"use strict";
+
+        var secondsSpentElement = document.getElementById("seconds-spent");
+        var secondsSpentElement1 = document.getElementById("seconds-spent1");
+        // var millisecondsSpentElement = document.getElementById("milliseconds-spent");
+        // var minutesSpentElement = document.getElementById("minutes-spent");
+
+        requestAnimationFrame(function updateTimeSpent(){
+            var timeNow = performance.now();
+            
+            secondsSpentElement.value = round(timeNow/1000);
+            secondsSpentElement1.value = round(timeNow/1000);
+            // millisecondsSpentElement.value = round(timeNow);
+            // minutesSpentElement.value = round(timeNow/60000);
+
+            
+            requestAnimationFrame(updateTimeSpent);
+        });
+        var performance = window.performance, round = Math.floor;
+        })();
+    </script>
+{% endblock %}

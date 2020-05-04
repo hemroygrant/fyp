@@ -1,0 +1,17 @@
+{% extends 'gp/base.html' %}
+
+{% block content %}
+    <div class="container" id="home-section">
+        <header class="mb-5 text-center">
+            {% if test_period >= 3%}
+                <h3>You have successfully completed the password test.</h3>
+                <a href="/survey">Click here to fill out a short survey.</a>
+            {% endif %}
+            {% if test_period < 3 %}
+                <h3>You have successfully login.</h3>
+                <h3>This is your {{test_period}}{% if test_period == 1 %}<sup>st</sup>{% endif %}{% if test_period == 2 %}<sup>nd</sup>{% endif %} test. Please run test again on {{ test_date.date }}.</h3>
+                <a href="/logout">Click here to contiunue.</a>
+            {% endif %}
+        </header>
+    </div>
+{% endblock %}

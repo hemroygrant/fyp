@@ -1,0 +1,116 @@
+{% extends 'gp/base.html' %}
+
+{% block content %}
+
+    <div id="home-section" >
+        <h1 class="ml-5">System Usability Scale Survey</h1>
+        <div class="container mt-5">
+            <h4>Please fill out the form below to give your assessment of the password scheme tested.</h4>
+            <form action="/survey/" class="row" method="POST">{% csrf_token %}
+                <table class="table table-dark table-bordered table-sm text-center">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="text-left pl-2">Statement</th>
+                        <th scope="col" class="p-0 align-middle px-1">Strongly Disagree</th>
+                        <th scope="col" class="p-0 align-middle px-1">Disagree</th>
+                        <th scope="col" class="p-0 align-middle px-1">Neutral</th>
+                        <th scope="col" class="p-0 align-middle px-1">Agree</th>
+                        <th scope="col" class="p-0 align-middle px-1">Strongly Agree</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row" class="text-left pl-2">I think that I would like to use this password scheme frequently.</th>
+                        <td><input type="checkbox" name="q1" id="q1" class="form-check-input m-0 mt-1" value="1"></td>
+                        <td><input type="checkbox" name="q1" id="q1" class="form-check-input m-0 mt-1" value="2"></td>
+                        <td><input type="checkbox" name="q1" id="q1" class="form-check-input m-0 mt-1" value="3"></td>
+                        <td><input type="checkbox" name="q1" id="q1" class="form-check-input m-0 mt-1" value="4"></td>
+                        <td><input type="checkbox" name="q1" id="q1" class="form-check-input m-0 mt-1" value="5"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-left pl-2">I found this password scheme unnecessarily complex.</th>
+                        <td><input type="checkbox" name="q2" id="q2" class="form-check-input m-0 mt-1" value="1"></td>
+                        <td><input type="checkbox" name="q2" id="q2" class="form-check-input m-0 mt-1" value="2"></td>
+                        <td><input type="checkbox" name="q2" id="q2" class="form-check-input m-0 mt-1" value="3"></td>
+                        <td><input type="checkbox" name="q2" id="q2" class="form-check-input m-0 mt-1" value="4"></td>
+                        <td><input type="checkbox" name="q2" id="q2" class="form-check-input m-0 mt-1" value="5"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-left pl-2">I thought this password scheme was easy to use.</th>
+                        <td><input type="checkbox" name="q3" id="q3" class="form-check-input m-0 mt-1" value="1"></td>
+                        <td><input type="checkbox" name="q3" id="q3" class="form-check-input m-0 mt-1" value="2"></td>
+                        <td><input type="checkbox" name="q3" id="q3" class="form-check-input m-0 mt-1" value="3"></td>
+                        <td><input type="checkbox" name="q3" id="q3" class="form-check-input m-0 mt-1" value="4"></td>
+                        <td><input type="checkbox" name="q3" id="q3" class="form-check-input m-0 mt-1" value="5"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-left pl-2">I think that I would need assistance to be able to use this password scheme.</th>
+                        <td><input type="checkbox" name="q4" id="q4" class="form-check-input m-0 mt-1" value="1"></td>
+                        <td><input type="checkbox" name="q4" id="q4" class="form-check-input m-0 mt-1" value="2"></td>
+                        <td><input type="checkbox" name="q4" id="q4" class="form-check-input m-0 mt-1" value="3"></td>
+                        <td><input type="checkbox" name="q4" id="q4" class="form-check-input m-0 mt-1" value="4"></td>
+                        <td><input type="checkbox" name="q4" id="q4" class="form-check-input m-0 mt-1" value="5"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-left pl-2">I found the various functions in this password scheme were well integrated.</th>
+                        <td><input type="checkbox" name="q5" id="q5" class="form-check-input m-0 mt-1" value="1"></td>
+                        <td><input type="checkbox" name="q5" id="q5" class="form-check-input m-0 mt-1" value="2"></td>
+                        <td><input type="checkbox" name="q5" id="q5" class="form-check-input m-0 mt-1" value="3"></td>
+                        <td><input type="checkbox" name="q5" id="q5" class="form-check-input m-0 mt-1" value="4"></td>
+                        <td><input type="checkbox" name="q5" id="q5" class="form-check-input m-0 mt-1" value="5"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-left pl-2">I thought there was too much inconsistency in this password scheme.</th>
+                        <td><input type="checkbox" name="q6" id="q6" class="form-check-input m-0 mt-1" value="1"></td>
+                        <td><input type="checkbox" name="q6" id="q6" class="form-check-input m-0 mt-1" value="2"></td>
+                        <td><input type="checkbox" name="q6" id="q6" class="form-check-input m-0 mt-1" value="3"></td>
+                        <td><input type="checkbox" name="q6" id="q6" class="form-check-input m-0 mt-1" value="4"></td>
+                        <td><input type="checkbox" name="q6" id="q6" class="form-check-input m-0 mt-1" value="5"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-left pl-2">I would imagine that most people would learn to use this password scheme very quickly.</th>
+                        <td><input type="checkbox" name="q7" id="q7" class="form-check-input m-0 mt-1" value="1"></td>
+                        <td><input type="checkbox" name="q7" id="q7" class="form-check-input m-0 mt-1" value="2"></td>
+                        <td><input type="checkbox" name="q7" id="q7" class="form-check-input m-0 mt-1" value="3"></td>
+                        <td><input type="checkbox" name="q7" id="q7" class="form-check-input m-0 mt-1" value="4"></td>
+                        <td><input type="checkbox" name="q7" id="q7" class="form-check-input m-0 mt-1" value="5"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-left pl-2">I found this password scheme very cumbersome/awkward to use.</th>
+                        <td><input type="checkbox" name="q8" id="q8" class="form-check-input m-0 mt-1" value="1"></td>
+                        <td><input type="checkbox" name="q8" id="q8" class="form-check-input m-0 mt-1" value="2"></td>
+                        <td><input type="checkbox" name="q8" id="q8" class="form-check-input m-0 mt-1" value="3"></td>
+                        <td><input type="checkbox" name="q8" id="q8" class="form-check-input m-0 mt-1" value="4"></td>
+                        <td><input type="checkbox" name="q8" id="q8" class="form-check-input m-0 mt-1" value="5"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-left pl-2">I felt very confident using this password scheme.</th>
+                        <td><input type="checkbox" name="q9" id="q9" class="form-check-input m-0 mt-1" value="1"></td>
+                        <td><input type="checkbox" name="q9" id="q9" class="form-check-input m-0 mt-1" value="2"></td>
+                        <td><input type="checkbox" name="q9" id="q9" class="form-check-input m-0 mt-1" value="3"></td>
+                        <td><input type="checkbox" name="q9" id="q9" class="form-check-input m-0 mt-1" value="4"></td>
+                        <td><input type="checkbox" name="q9" id="q9" class="form-check-input m-0 mt-1" value="5"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="text-left pl-2">I needed to learn a lot of things before I could get going with this password scheme.</th>
+                        <td><input type="checkbox" name="q10" id="q10" class="form-check-input m-0 mt-1" value="1"></td>
+                        <td><input type="checkbox" name="q10" id="q10" class="form-check-input m-0 mt-1" value="2"></td>
+                        <td><input type="checkbox" name="q10" id="q10" class="form-check-input m-0 mt-1" value="3"></td>
+                        <td><input type="checkbox" name="q10" id="q10" class="form-check-input m-0 mt-1" value="4"></td>
+                        <td><input type="checkbox" name="q10" id="q10" class="form-check-input m-0 mt-1" value="5"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <button type="submit" class="btn btn-primary w-50 mx-auto">Submit</button>
+            </form>
+            <p class="p-3"><b>Instructions: </b>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil sunt quia aliquid laboriosam voluptas quaerat amet praesentium facere quasi eaque rerum, id vitae nemo, illo illum voluptates commodi dolorem rem.</p>
+        </div>
+    </div>
+
+    <script>
+        $('input[type="checkbox"]').on('change', function() {
+            $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'gp/base.html' %}
+
+{% block content %}
+
+    <div class="container" id="home-section">
+        <header class="mb-5 display-4">
+            <b>Hello {{ username }}</b>
+        </header>
+
+        <form action="#" class="mb-5">{% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="" class="form-control is-invalid" required>
+                    <div class="invalid-feedback">Please enter a valid email address!</div>
+                </div>
+                <button class="btn btn-primary col-md-4 btn-block my-auto mx-auto" type="submit">Submit</button>
+            </div>
+        </form>
+        <p class="h4">If you have not registered for testing. Please click here <a href="{% url 'register' %}"> to register.</a></p>
+    </div>
+
+{% endblock %}
